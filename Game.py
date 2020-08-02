@@ -23,7 +23,7 @@ class Game:
         self.check_for_blackjack(dealer_hand, PlayerType.Dealer)
         self.check_for_blackjack(player_hand, PlayerType.Player)
 
-        while self.turn == PlayerType.Player and self.is_over == False:
+        while self.turn == PlayerType.Player and not self.is_over:
             response = input("Hit or Stay: Type H or S\n").strip().lower()
             if response == "s":
                 self.turn = PlayerType.Dealer
@@ -35,7 +35,7 @@ class Game:
                 print("\nInvalid response. Please type H or S\n")
 
         self.print_hand(dealer_hand, PlayerType.Dealer)
-        while self.turn == PlayerType.Dealer and self.is_over == False:
+        while self.turn == PlayerType.Dealer and not self.is_over:
             self.check_for_bust(dealer_hand, PlayerType.Dealer)
 
             dealer_hand_sum = Card.sum(dealer_hand)
