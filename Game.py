@@ -6,7 +6,7 @@ from PlayerType import PlayerType
 class Game:
     def __init__(self):
         self.turn = PlayerType.Player
-        self.is_over = False
+        self.game_over = False
         self.winner = None
 
     def run(self):
@@ -23,7 +23,7 @@ class Game:
         self.check_for_blackjack(dealer_hand, PlayerType.Dealer)
         self.check_for_blackjack(player_hand, PlayerType.Player)
 
-        while self.turn == PlayerType.Player and not self.is_over:
+        while self.turn == PlayerType.Player and not self.game_over:
             response = input("Hit or Stay: Type H or S\n").strip().lower()
             if response == "s":
                 self.turn = PlayerType.Dealer
@@ -35,7 +35,7 @@ class Game:
                 print("\nInvalid response. Please type H or S\n")
 
         self.print_hand(dealer_hand, PlayerType.Dealer)
-        while self.turn == PlayerType.Dealer and not self.is_over:
+        while self.turn == PlayerType.Dealer and not self.game_over:
             self.check_for_bust(dealer_hand, PlayerType.Dealer)
 
             dealer_hand_sum = Card.sum(dealer_hand)
@@ -43,7 +43,7 @@ class Game:
 
             if (17 < dealer_hand_sum <= 21) and dealer_hand_sum > player_hand_sum:
                 self.winner = PlayerType.Dealer
-                self.is_over = True
+                self.game_over = True
 
             self.draw_card_and_check_for_winner(deck.cards, dealer_hand, PlayerType.Dealer)
 
@@ -81,17 +81,17 @@ class Game:
         elif winner == PlayerType.Dealer:
             print("Dealer Wins")
 
-        self.is_over = True
+        self.game_over = True
 
     def check_for_blackjack(self, hand, player_type):
         if Card.sum(hand) == 21:
             self.winner = player_type
-            self.is_over = True
+            self.game_over = True
 
     def check_for_bust(self, hand, player_type):
         if Card.sum(hand) > 21:
             self.winner = PlayerType.Dealer if player_type == player_type.Player else PlayerType.Player
-            self.is_over = True
+            self.game_over = True
 
     def draw_card_and_check_for_winner(self, deck_cards, hand, player_type):
         Card.draw(deck_cards, hand)
